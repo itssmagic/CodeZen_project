@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
+const {DBConnection} = require('./database/db');
 
+DBConnection();
 //server
 app.post("/register",(req,body) => {
     try {
@@ -14,7 +16,7 @@ app.post("/register",(req,body) => {
         }
 
         //check if user all ready exists
-        
+
     }
   });
 
