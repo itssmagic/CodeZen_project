@@ -12,6 +12,9 @@ app.post("/register",(req,body) => {
         {
             return res.status(400).send("please fill all the details!");
         }
+
+        //check if user all ready exists
+        
     }
   });
 
