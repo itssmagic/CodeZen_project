@@ -62,7 +62,7 @@ app.post("/register", async (req, res) => {
 
 
     } catch (error) {
-
+        console.log(error);
     }
 })
 
@@ -91,10 +91,28 @@ app.post("/login", async (req, res) => {
             return res.status(401).send("Password is incorrect");
         }
 
-        
+        //generate token
+        const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, {
+            expiresIn: "1h"
+        })
+        user.token = token;
+        user.password = undefined;
+
+        //store cookies
+        const options = {
+            expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+            httpOnly: true, //only manipulate by server not by client/user
+        };
+
+        //send token to user
+        res.status(200).cookie("token", token, options).json({
+            message: "You have successfully logged in!",
+            success: true,
+            token,
+        });
     }
     catch (error) {
-
+        console.log(error);
     }
 
 })
