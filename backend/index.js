@@ -58,10 +58,48 @@ app.post("/register", async (req, res) => {
             user
         })
 
+
+
+
     } catch (error) {
 
     }
 })
+
+//login
+app.post("/login", async (req, res) => {
+    try {
+        //get all the data from body
+        const { email, password } = req.body;
+
+        //check all the data should exist
+        if (!(email && password)) {
+            res.status(400).send("Please enter all required fields");
+        }
+
+        //find user in the database
+        const existingUser = await User.findOne({ email });
+        if (!existingUser) {
+            return res.status(400).send("User not found");
+        }
+
+
+        //match the password=
+        const enteredPassword = await bcrypt.compareSync(password, hashPassword);
+        if(!enteredPassword)
+        {
+            return res.status(401).send("Password is incorrect");
+        }
+
+        
+    }
+    catch (error) {
+
+    }
+
+})
+
+
 
 app.listen(8000, () => {
     console.log("Server is listening on port 8000");
