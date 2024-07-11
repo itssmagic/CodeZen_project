@@ -5,11 +5,15 @@ const User = require('./models/Users.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 dotenv.config();
 
 //middlewares
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 DBConnection();
 app.get("/", (req, res) => {
@@ -49,7 +53,7 @@ app.post("/register", async (req, res) => {
         });
         //generate token for user and send it
         const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, {
-            expiresIn: "1h"
+            expiresIn: "1d"
         })
         user.token = token;
         user.password = undefined;
@@ -78,13 +82,14 @@ app.post("/login", async (req, res) => {
         }
 
         //find user in the database
-        const existingUser = await User.findOne({ email });
-        if (!existingUser) {
+        const user = await User.findOne({ email });
+        if (!user) {
             return res.status(400).send("User not found");
         }
 
 
         //match the password=
+        const hashPassword = bcrypt.hashSync(password, 8);
         const enteredPassword = await bcrypt.compareSync(password, hashPassword);
         if(!enteredPassword)
         {
