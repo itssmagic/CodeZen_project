@@ -16,10 +16,10 @@ app.use(cookieParser());
 const userRegister = async (req, res) => {
   try {
     //get all data from req body
-    const { firstname, lastname, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     //check if all data fields are filled
-    if (!(firstname && lastname && email && password)) {
+    if (!(username && email && password)) {
       return res.status(400).send("Please enter all data fields!");
     }
 
@@ -34,8 +34,7 @@ const userRegister = async (req, res) => {
 
     //save the user to the database
     const user = await User.create({
-      firstname,
-      lastname,
+      username,
       email,
       password: hashPassword,
     });
