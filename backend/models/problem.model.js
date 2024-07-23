@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 //yeah
 const problemSchema = new mongoose.Schema({
-  Title: {
+  title: {
     type: String,
-    Required: true,
+    required: true,
   },
   description: { type: String, required: true },
   inputFormat: { type: String, required: true },

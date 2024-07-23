@@ -27,7 +27,7 @@ const getProblem = async (req, res) => {
     const problem = await Problem.findById(id);
     res.status(200).send(problem);
   } catch (error) {
-    res.status(400).send("problem not found");
+    res.status(400).send({ error: error.message });
   }
 };
 
@@ -37,12 +37,12 @@ const updateProblem = async (req, res) => {
     const { id } = req.params;
     const problem = await Problem.findByIdAndUpdate(id, req.body);
     if (!problem) {
-      return res.status(400).send("problem not found");
+      return res.status(400).send({ error: error.message });
     }
     const updatedProblem = await Problem.findById(id);
     res.status(200).send(updatedProblem);
   } catch (error) {
-    res.status(400).send("problem not found");
+    res.status(400).send({ error: error.message });
   }
 };
 
@@ -53,7 +53,7 @@ const deleteProblem = async (req, res) => {
     const problem = await Problem.findByIdAndDelete(id);
     res.status(200).send("problem deleted succesfully");
   } catch (error) {
-    res.status(400).send("problem not found");
+    res.status(400).send({ error: error.message });
   }
 };
 
