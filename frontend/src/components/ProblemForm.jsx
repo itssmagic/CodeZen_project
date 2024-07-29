@@ -1,11 +1,12 @@
-// src/components/ProblemForm.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
+import { useProblems } from '../context/ProblemContext';
 
 const ProblemForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { fetchProblems } = useProblems();
   const [problem, setProblem] = useState({
     title: '',
     description: '',
@@ -50,6 +51,7 @@ const ProblemForm = () => {
       } else {
         await axiosInstance.post('/problems', problem);
       }
+      await fetchProblems(); // Refresh the problem list in context
       navigate('/problems');
     } catch (error) {
       setError('Error saving problem');

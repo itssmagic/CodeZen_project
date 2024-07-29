@@ -4,6 +4,7 @@ const { DBConnection } = require("./database/db");
 
 const userRoute = require("./routes/user.route.js");
 const problemRoute = require("./routes/problem.route.js");
+const compileRoute = require('./routes/compile.route.js');
 const cors = require("cors");
 
 //middlewares
@@ -14,12 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 //routers
 app.use("/", userRoute);
 app.use("/problems", problemRoute);
+app.use('/', compileRoute);
 
-// app.use(cors({
-//   origin: 'http://localhost:5173', // your frontend URL
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//   credentials: true,
-// }));
+
 
 
 
