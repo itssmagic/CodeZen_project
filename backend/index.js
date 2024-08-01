@@ -5,6 +5,7 @@ const { DBConnection } = require("./database/db");
 const userRoute = require("./routes/user.route.js");
 const problemRoute = require("./routes/problem.route.js");
 const compileRoute = require('./routes/compile.route.js');
+const submissionRoute = require('./routes/submission.route.js');
 const cors = require("cors");
 
 //middlewares
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", userRoute);
 app.use("/problems", problemRoute);
 app.use('/', compileRoute);
+app.use('/',submissionRoute);
 
 
 

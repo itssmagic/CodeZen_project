@@ -1,14 +1,18 @@
+// ProblemDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance.js';
+import { useUser } from '../context/UserContext.jsx'; // Import the useUser hook
 
 function ProblemDetail() {
   const { id } = useParams();
+  // const { user } = useUser(); // Get user from context
   const [problem, setProblem] = useState(null);
-  const [language, setLanguage] = useState('java');
+  const [language, setLanguage] = useState('cpp');
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [code, setCode] = useState('');
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     // Fetch the problem details from the database
@@ -25,10 +29,21 @@ function ProblemDetail() {
   };
 
   const handleSubmit = () => {
+    // if (!user) {
+    //   setStatus('User not logged in');
+    //   return;
+    // }
+
     // Submit the code for evaluation
-    axiosInstance.post('/api/submit', { code, input, language })
-      .then(response => setOutput(response.data.output))
-      .catch(error => console.error('Error submitting code:', error));
+    axiosInstance.post('/submit', {  problemId: id, code, language })
+      .then(response => {
+        setOutput(response.data.output);
+        setStatus(response.data.status);
+      })
+      .catch(error => {
+        setStatus('Error submitting code');
+        console.error('Error submitting code:', error);
+      });
   };
 
   if (!problem) {
@@ -40,6 +55,12 @@ function ProblemDetail() {
       <div className="md:w-1/2 mb-4 md:mb-0 md:pr-4">
         <h2 className="text-2xl font-bold mb-2">{problem.title}</h2>
         <p className="mb-4">{problem.description}</p>
+        <h3 className="text-xl font-bold mb-2">Input Format</h3>
+        <p className="mb-4">{problem.inputFormat}</p>
+        <h3 className="text-xl font-bold mb-2">Output Format</h3>
+        <p className="mb-4">{problem.outputFormat}</p>
+        <h3 className="text-xl font-bold mb-2">Constraints</h3>
+        <p className="mb-4">{problem.constraints}</p>
       </div>
       <div className="md:w-1/2 flex flex-col space-y-4">
         <div>
@@ -81,6 +102,9 @@ function ProblemDetail() {
             rows={3}
             className="w-full border border-gray-300 rounded p-2 bg-gray-100"
           />
+        </div>
+        <div>
+          {status && <p>Status: {status}</p>}
         </div>
         <div className="flex space-x-4">
           <button

@@ -12,7 +12,8 @@ const ProblemForm = () => {
     description: '',
     inputFormat: '',
     outputFormat: '',
-    constraints: ''
+    constraints: '',
+    testCases: [{ input: '', expectedOutput: '' }]
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -41,6 +42,24 @@ const ProblemForm = () => {
       ...problem,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleTestCaseChange = (index, event) => {
+    const newTestCases = [...problem.testCases];
+    newTestCases[index][event.target.name] = event.target.value;
+    setProblem({ ...problem, testCases: newTestCases });
+  };
+
+  const addTestCase = () => {
+    setProblem({
+      ...problem,
+      testCases: [...problem.testCases, { input: '', expectedOutput: '' }]
+    });
+  };
+
+  const removeTestCase = (index) => {
+    const newTestCases = problem.testCases.filter((_, i) => i !== index);
+    setProblem({ ...problem, testCases: newTestCases });
   };
 
   const handleSubmit = async (e) => {
@@ -115,6 +134,49 @@ const ProblemForm = () => {
             required 
             className="w-full px-4 py-2 border rounded" 
           />
+        </div>
+        <div>
+          <label className="block font-medium">Test Cases</label>
+          {problem.testCases.map((testCase, index) => (
+            <div key={index} className="space-y-2 mb-4">
+              <div>
+                <label className="block font-medium">Input</label>
+                <input
+                  type="text"
+                  name="input"
+                  value={testCase.input}
+                  onChange={(e) => handleTestCaseChange(index, e)}
+                  required
+                  className="w-full px-4 py-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-medium">Expected Output</label>
+                <input
+                  type="text"
+                  name="expectedOutput"
+                  value={testCase.expectedOutput}
+                  onChange={(e) => handleTestCaseChange(index, e)}
+                  required
+                  className="w-full px-4 py-2 border rounded"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => removeTestCase(index)}
+                className="bg-red-500 text-white px-4 py-2 rounded"
+              >
+                Remove Test Case
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addTestCase}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
+            Add Test Case
+          </button>
         </div>
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
       </form>
