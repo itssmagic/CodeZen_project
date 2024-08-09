@@ -37,7 +37,7 @@ function ProblemDetail() {
     // Submit the code for evaluation
     axiosInstance.post('/submit', {  problemId: id, code, language })
       .then(response => {
-        setOutput(response.data.output);
+        // setOutput(response.data.output);
         setStatus(response.data.status);
       })
       .catch(error => {

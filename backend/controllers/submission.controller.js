@@ -18,7 +18,7 @@ const compileCode = async ( code,language,input) => {
       input,
       code,
     });
-   console.log("response ", response);
+  // console.log("response", response);
     // Return the compiler response
    return response.data;
   } catch (error) {
@@ -31,10 +31,11 @@ const compileCode = async ( code,language,input) => {
 
 
 const submitCode = async (req, res) => {
+  console.log("ok it is");
   const { problemId, code, language } = req.body;
 //   console.log("Request Body:", req.body);
   // Validate the request
-  if (!problemId || !code || !language) {
+  if (!problemId || !code || !language ) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
@@ -45,24 +46,27 @@ const submitCode = async (req, res) => {
     if (!problem) {
       return res.status(404).json({ error: "Problem not found" });
     }
-    // console.log(problem);
+     
 
     let status = "Accepted";
     let outputs = [];
 
     // Run the code against each test case
-    for (const testCase of problem.testCases) {
-        
-      
+     for (const testCase of problem.testCases) {
+      // console.log("testcases", testCase); 
       const result = await compileCode(code, language, testCase.input);
-
+      
       outputs.push(result.output);
-        
+         console.log("result.output", result.output)
+         console.log("testcase.output", testCase.expectedOutput)
       if (result.output.trim() !== testCase.expectedOutput.trim()) {
         status = "Wrong Answer";
-        break;
+         break;
       }
-    }
+     }
+   
+    
+    
 
     // Create a new submission record
     const newSubmission = new Submission({
@@ -71,12 +75,14 @@ const submitCode = async (req, res) => {
       language,
       status,
       output: outputs.join("\n"),
+      // output: result.output || result.error,
     });
 
     await newSubmission.save();
 
     res.status(200).json(newSubmission);
   } catch (error) {
+    console.log(error);
     res
       .status(500)
       .json({ error: "An error occurred while processing the submission" });

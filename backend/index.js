@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", userRoute);
 app.use("/problems", problemRoute);
 app.use('/', compileRoute);
-app.use('/',submissionRoute);
+app.use('/submit',submissionRoute);
 
 
 

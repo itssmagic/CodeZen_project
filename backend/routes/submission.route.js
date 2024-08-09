@@ -5,6 +5,6 @@ const router = express.Router();
 const { submitCode } = require('../controllers/submission.controller.js');
 
 // POST /api/submit
-router.post('/submit', submitCode);
+router.post('/', submitCode);
 
 module.exports = router;
