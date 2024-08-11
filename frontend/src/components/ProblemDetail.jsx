@@ -1,4 +1,3 @@
-// ProblemDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance.js';
@@ -35,9 +34,9 @@ function ProblemDetail() {
     // }
 
     // Submit the code for evaluation
-    axiosInstance.post('/submit', {  problemId: id, code, language })
+    axiosInstance.post('/submit', { problemId: id, code, language })
       .then(response => {
-        // setOutput(response.data.output);
+        setOutput(response.data.output);
         setStatus(response.data.status);
       })
       .catch(error => {
@@ -104,7 +103,11 @@ function ProblemDetail() {
           />
         </div>
         <div>
-          {status && <p>Status: {status}</p>}
+          {status && (
+            <p className={`font-semibold ${status === 'Accepted' ? 'text-green-600' : status === 'Wrong Answer' ? 'text-red-600' : 'text-gray-600'}`}>
+              Status: {status}
+            </p>
+          )}
         </div>
         <div className="flex space-x-4">
           <button

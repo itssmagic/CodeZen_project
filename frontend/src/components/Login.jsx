@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
+import { useUser } from '../context/UserContext';
 
 const Login = () => {
+  const {user,setUser}=useUser()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const location=useLocation()
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,6 +19,7 @@ const Login = () => {
       });
       if (response.data.success) {
         console.log('Login success:', response.data);
+        setUser(response?.data?.user)
         navigate('/');
       } else {
         console.error('Login failed:', response.data.message);
@@ -26,7 +30,13 @@ const Login = () => {
       alert('An error occurred during login.');
     }
   };
-
+  useEffect(()=>{
+    if(user)
+    {
+      console.log(location)
+      navigate(location?.state ?? "/")
+    }
+  },[user])
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -98,7 +108,7 @@ const Login = () => {
         <p className="mt-10 text-center text-sm text-gray-500">
           Not a member?{' '}
           <a href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-            Start a 14 day free trial
+            Create an account
           </a>
         </p>
       </div>

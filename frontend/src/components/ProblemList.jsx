@@ -1,12 +1,14 @@
-// src/components/ProblemList.jsx
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../api/axiosInstance';
 import { Link } from 'react-router-dom';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 
 const ProblemList = () => {
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [problemToDelete, setProblemToDelete] = useState(null);
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -23,13 +25,22 @@ const ProblemList = () => {
     fetchProblems();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
+    if (!problemToDelete) return;
+
     try {
-      await axiosInstance.delete(`/problems/${id}`);
-      setProblems(problems.filter(problem => problem._id !== id));
+      await axiosInstance.delete(`/problems/${problemToDelete}`);
+      setProblems(problems.filter(problem => problem._id !== problemToDelete));
+      setProblemToDelete(null);
+      setIsModalOpen(false);
     } catch (error) {
       setError('Error deleting problem');
     }
+  };
+
+  const openModal = (id) => {
+    setProblemToDelete(id);
+    setIsModalOpen(true);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -50,7 +61,7 @@ const ProblemList = () => {
                 Edit
               </Link>
               <button 
-                onClick={() => handleDelete(problem._id)} 
+                onClick={() => openModal(problem._id)} 
                 className="bg-red-500 text-white px-2 py-1 rounded">
                 Delete
               </button>
@@ -58,6 +69,11 @@ const ProblemList = () => {
           </li>
         ))}
       </ul>
+      <DeleteConfirmationModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onConfirm={handleDelete} 
+      />
     </div>
   );
 };
