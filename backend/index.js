@@ -41,6 +41,9 @@ app.use("/problems", problemRoute);
 app.use('/', compileRoute);
 app.use('/',submissionRoute);
 
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
 
 
 
