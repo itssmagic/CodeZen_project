@@ -9,7 +9,7 @@ const compileCode = async (req, res) => {
 
   try {
     // Forward the code to the compiler service
-    const response = await axios.post("http://localhost:5000/run", {
+    const response = await axios.post("https://compiler-backend.codingmindset.tech/run", {
       language,
       input,
       code,

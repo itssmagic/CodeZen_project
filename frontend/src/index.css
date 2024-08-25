@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+  
+  .gutter-horizontal {
+    cursor: grabbing;
+    border: 2px solid #164c6032;
+  }
+  
+  .gutter-vertical {
+    cursor: grab;
+  }
+  .wrap {
+    display: flex;
+  }

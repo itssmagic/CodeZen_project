@@ -5,12 +5,13 @@ import Login from "./components/Login";
 import ProblemList from "./components/ProblemList";
 import ProblemForm from "./components/ProblemForm";
 import HomePage from "./components/HomePage";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import UserProblemList from "./components/UserProblemList"; // Import the UserProblemList component
 import ProblemDetail from "./components/ProblemDetail";
 import { UserProvider, useUser } from "./context/UserContext";
 import { AdminProtectedRoute, ProtectedRoute } from "./layout/ProtectedRoute";
 import Submissions from "./components/Submissions";
+import Navbar_Modern from "./components/Navbar_Modern";
 
 function App() {
   const { user, getUser } = useUser();
@@ -23,7 +24,8 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
-      <Navbar isAdmin={isAdmin} />
+      {/* <Navbar isAdmin={isAdmin} /> */}
+      <Navbar_Modern/>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

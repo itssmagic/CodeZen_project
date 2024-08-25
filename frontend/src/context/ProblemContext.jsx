@@ -5,13 +5,18 @@ const ProblemContext = createContext();
 
 export const ProblemProvider = ({ children }) => {
   const [problems, setProblems] = useState([]);
+  const [loading,setLoading]=useState(false)
 
   const fetchProblems = async () => {
     try {
+      setLoading(true)
       const response = await axiosInstance.get('/problems');
       setProblems(response.data.problems || response.data);
     } catch (error) {
       console.error('Error fetching problems:', error);
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -20,7 +25,7 @@ export const ProblemProvider = ({ children }) => {
   }, []);
 
   return (
-    <ProblemContext.Provider value={{ problems, fetchProblems }}>
+    <ProblemContext.Provider value={{ problems,loading, fetchProblems }}>
       {children}
     </ProblemContext.Provider>
   );
