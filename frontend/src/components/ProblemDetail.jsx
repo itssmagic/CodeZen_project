@@ -36,7 +36,7 @@ const ComponentA = ({ language, code, setCode, setLanguage }) => {
       </div>
       <div>
         <CodeMirror
-      value="console.log('hello world!');"
+      value={code}
       height="400px"
       extensions={extensions}
       onChange={onChange}
@@ -161,7 +161,7 @@ function ProblemDetail() {
   const [language, setLanguage] = useState("cpp");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState("//Write Your Code Below");
   const [status, setStatus] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
 
