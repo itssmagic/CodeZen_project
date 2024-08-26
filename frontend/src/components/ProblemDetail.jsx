@@ -3,13 +3,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance.js";
 import { useUser } from "../context/UserContext.jsx"; // Import the useUser hook
 import Split from "react-split";
-import CodeMirror from "@uiw/react-codemirror";
-import { cpp } from "@codemirror/lang-cpp";
+import CodeMirror from '@uiw/react-codemirror';
 import Loader from "./Loader.jsx";
 import ReactConfetti from "react-confetti";
 import toast from "react-hot-toast";
+import { createTheme } from '@uiw/codemirror-themes';
+import {javascript} from '@codemirror/lang-javascript'
+
+const extensions = [javascript({ jsx: true })];
+
 
 const ComponentA = ({ language, code, setCode, setLanguage }) => {
+  const onChange = React.useCallback((value, viewUpdate) => {
+    setCode(value)
+  }, []);
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-2 pb-2">
@@ -29,13 +36,11 @@ const ComponentA = ({ language, code, setCode, setLanguage }) => {
       </div>
       <div>
         <CodeMirror
-          value={code}
-          extensions={[cpp()]}
-          height="400px"
-          onChange={(value) => {
-            setCode(value);
-          }}
-        />
+      value="console.log('hello world!');"
+      height="400px"
+      extensions={extensions}
+      onChange={onChange}
+    />
       </div>
     </div>
   );
