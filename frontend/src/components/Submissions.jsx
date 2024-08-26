@@ -51,7 +51,7 @@ const SubmissionTable=({tableItems}) => {
                           <th className="py-3 px-6">Language</th>
                           <th className="py-3 px-6">Submission Time</th>
                           <th className="py-3 px-6">Status</th>
-                          <th className="py-3 px-6 text-center"></th>
+                          {/* <th className="py-3 px-6 text-center"></th> */}
 
                       </tr>
                   </thead>
@@ -69,14 +69,14 @@ const SubmissionTable=({tableItems}) => {
                                             {item?.status ?? "Active"}
                                     </span>
                                   </td>
-                                  <td className="text-right px-6 space-x-2 whitespace-nowrap">
+                                  {/* <td className="text-right px-6 space-x-2 whitespace-nowrap">
                                       <Link to={`/problems/edit/${item?._id}`}  className="py-2 px-3 font-medium text-primary-600 bg-primary-50 hover:text-primary-500 duration-150 hover:bg-gray-50 rounded-lg">
                                           View
                                       </Link>
-                                      {/* <button onClick={(e) => openModal(item?._id)}  className="py-2 leading-none px-3 font-medium bg-red-50 text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
+                                      <button onClick={(e) => openModal(item?._id)}  className="py-2 leading-none px-3 font-medium bg-red-50 text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
                                           Report Plagirism
-                                      </button> */}
-                                  </td>
+                                      </button>
+                                  </td> */}
                               </tr>
                           ))
                       }

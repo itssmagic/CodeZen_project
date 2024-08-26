@@ -3,6 +3,7 @@ const Problem = require("../models/problem.model.js");
 // creating a new problem
 const createProblem = async (req, res) => {
   try {
+    console.log(req.body);
     const problem = await Problem.create(req.body);
     res.status(200).send(problem);
   } catch (error) {
@@ -13,6 +14,7 @@ const createProblem = async (req, res) => {
 // fetching all problems
 const getAllProblem = async (req, res) => {
   try {
+    console.log("ALl problem");
     const problems = await Problem.find({});
     res.status(200).send(problems);
   } catch (error) {
@@ -24,6 +26,7 @@ const getAllProblem = async (req, res) => {
 const getProblem = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
     const problem = await Problem.findById(id);
     res.status(200).send(problem);
   } catch (error) {

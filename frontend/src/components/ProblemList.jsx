@@ -95,12 +95,12 @@ const ProblemListTable=({tableItems,openModal}) => {
                   </p>
               </div>
               <div className="mt-3 md:mt-0">
-                  <a
-                      href="javascript:void(0)"
+                  <Link
+                      to="/problems/add"
                       className="inline-block px-4 py-2 text-white duration-150 font-medium bg-primary-400 rounded-lg hover:bg-primary-500 active:bg-primary-700 md:text-sm"
                   >
                       Add Problem
-                  </a>
+                  </Link>
               </div>
           </div>
           <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">

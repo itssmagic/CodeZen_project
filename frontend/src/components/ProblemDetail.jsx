@@ -27,9 +27,13 @@ const ComponentA = ({ language, code, setCode, setLanguage }) => {
         </select>
       </div>
       <div>
-        <CodeMirror value={code} height="400px" onChange={(value) => {
-          setCode(value);
-        }} />
+        <CodeMirror
+          value={code}
+          height="400px"
+          onChange={(value) => {
+            setCode(value);
+          }}
+        />
       </div>
     </div>
   );
@@ -75,30 +79,68 @@ const ComponentB = ({ input, output, setInput, handleRun, handleSubmit }) => {
 };
 
 function C1({ problem }) {
+  console.log(problem);
   return (
-    <div className="md:w-1/2 mb-4 md:mb-0 md:pr-4 py-4">
-      <h2 className="text-2xl font-bold mb-2">{problem.title}</h2>
-      <p className="mb-4">{problem.description}</p>
-      <h3 className="text-xl font-bold mb-2">Input Format</h3>
-      <p className="mb-4">{problem.inputFormat}</p>
-      <h3 className="text-xl font-bold mb-2">Output Format</h3>
-      <p className="mb-4">{problem.outputFormat}</p>
-      <h3 className="text-xl font-bold mb-2">Constraints</h3>
-      <p className="mb-4">{problem.constraints}</p>
+    <div className="md:w-1/2 mb-4 md:mb-0 md:pr-4 py-4 overflow-y-scroll h-[calc(100vh-5rem)]">
+      <div className="pt-4 pb-8">
+        <h2 className="text-2xl font-bold mb-2">{problem.title}</h2>
+        <code className="mb-4">{problem.description}</code>
+      </div>
+      <div className="py-4">
+        <h3 className="text-xl font-bold mb-2">Input Format:</h3>
+        <code className="mb-4">{problem.inputFormat}</code>
+      </div>
+      <div className="py-4">
+        <h3 className="text-xl font-bold mb-2">Output Format:</h3>
+        <code className="mb-4">{problem.outputFormat}</code>
+      </div>
+      <div className="py-4">
+        <h3 className="text-xl font-bold mb-2">Constraints:</h3>
+        <code className="mb-4">{problem.constraints}</code>
+      </div>
+
+      <div>
+        <h3 className="text-xl font-bold mb-2 w-full">Examples:</h3>
+        {problem?.examples?.length>0 ? problem.examples?.map((example,idx) => (
+           <div className="py-4" key={idx}>
+            <h3 className="text-xl font-bold mb-2">Input</h3>
+            <code className="mb-4 bg-gray-200 w-full p-2">{example?.input}</code>
+            <h3 className="text-xl font-bold mb-2">Output</h3>
+            <code className="mb-4 bg-gray-200 w-full p-2">{example?.expectedOutput}</code>
+          </div>
+)) : <p className="text-gray-400">No example test cases</p>}
+      </div>
     </div>
   );
 }
 
-function C2({ setLanguage, setCode, code, language, input, output, setInput, handleRun, handleSubmit }) {
+function C2({
+  setLanguage,
+  setCode,
+  code,
+  language,
+  input,
+  output,
+  setInput,
+  handleRun,
+  handleSubmit,
+}) {
   return (
     <div className="pt-4 pr-4">
-      <Split
-        className="intterWrap ml-4"
-        sizes={[70, 30]}
-        direction="vertical"
-      >
-        <ComponentA code={code} setCode={setCode} language={language} setLanguage={setLanguage} />
-        <ComponentB input={input} setInput={setInput} output={output} handleRun={handleRun} handleSubmit={handleSubmit} />
+      <Split className="intterWrap ml-4" sizes={[70, 30]} direction="vertical">
+        <ComponentA
+          code={code}
+          setCode={setCode}
+          language={language}
+          setLanguage={setLanguage}
+        />
+        <ComponentB
+          input={input}
+          setInput={setInput}
+          output={output}
+          handleRun={handleRun}
+          handleSubmit={handleSubmit}
+        />
       </Split>
     </div>
   );
@@ -179,13 +221,21 @@ function ProblemDetail() {
           cursor="col-resize"
         >
           <C1 problem={problem} />
-          <C2 code={code} setCode={setCode} language={language} setLanguage={setLanguage} input={input} setInput={setInput} output={output} handleRun={handleRun} handleSubmit={handleSubmit} />
+          <C2
+            code={code}
+            setCode={setCode}
+            language={language}
+            setLanguage={setLanguage}
+            input={input}
+            setInput={setInput}
+            output={output}
+            handleRun={handleRun}
+            handleSubmit={handleSubmit}
+          />
         </Split>
-        {showConfetti && <ReactConfetti
-          className="absolute"
-          width={1024}
-          height={800}
-        />}
+        {showConfetti && (
+          <ReactConfetti className="absolute" width={1024} height={800} />
+        )}
       </div>
     </>
   );

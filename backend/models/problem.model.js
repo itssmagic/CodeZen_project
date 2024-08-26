@@ -19,6 +19,7 @@ const problemSchema = new mongoose.Schema({
   description: { type: String, required: true },
   inputFormat: { type: String, required: true },
   outputFormat: { type: String, required: true },
+  examples:[testCaseSchema],
   testCases: [testCaseSchema],
   constraints: { type: String, required: true },
 });

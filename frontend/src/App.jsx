@@ -12,6 +12,7 @@ import { UserProvider, useUser } from "./context/UserContext";
 import { AdminProtectedRoute, ProtectedRoute } from "./layout/ProtectedRoute";
 import Submissions from "./components/Submissions";
 import Navbar_Modern from "./components/Navbar_Modern";
+import UserProfile from "./components/UserProfile";
 
 function App() {
   const { user, getUser } = useUser();
@@ -36,6 +37,7 @@ function App() {
           <Route path="/problems/:id" element={<ProblemDetail />} />
           <Route path="/user-problems" element={<UserProblemList />} />
           <Route path="/submissions" element={<Submissions />} />
+          <Route path="/profile/:id" element={<UserProfile />} />
           {/* {isAdmin && <Route path="/problems/add" element={<ProblemForm />} />}
           
           {isAdmin && <Route path="/problems/edit/:id" element={<ProblemForm isEdit />} />} */}

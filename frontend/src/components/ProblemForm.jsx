@@ -13,6 +13,7 @@ const ProblemForm = () => {
     inputFormat: '',
     outputFormat: '',
     constraints: '',
+    examples: [{ input: '', expectedOutput: '' }],
     testCases: [{ input: '', expectedOutput: '' }]
   });
   const [loading, setLoading] = useState(true);
@@ -44,6 +45,24 @@ const ProblemForm = () => {
     });
   };
 
+  const handleExampleChange = (index, event) => {
+    const newExamples = [...problem.examples];
+    newExamples[index][event.target.name] = event.target.value;
+    setProblem({ ...problem, examples: newExamples });
+  };
+
+  const addExample = () => {
+    setProblem({
+      ...problem,
+      examples: [...problem.examples, { input: '', expectedOutput: '' }]
+    });
+  };
+
+  const removeExample = (index) => {
+    const newExamples = problem.examples.filter((_, i) => i !== index);
+    setProblem({ ...problem, examples: newExamples });
+  };
+
   const handleTestCaseChange = (index, event) => {
     const newTestCases = [...problem.testCases];
     newTestCases[index][event.target.name] = event.target.value;
@@ -65,9 +84,12 @@ const ProblemForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
       if (id) {
+        
         await axiosInstance.put(`/problems/${id}`, problem);
       } else {
+        console.log(problem);
         await axiosInstance.post('/problems', problem);
       }
       await fetchProblems(); // Refresh the problem list in context
@@ -134,6 +156,49 @@ const ProblemForm = () => {
             required 
             className="w-full px-4 py-2 border rounded" 
           />
+        </div>
+        <div>
+          <label className="block font-medium">Examples</label>
+          {problem.examples.map((example, index) => (
+            <div key={index} className="space-y-2 mb-4">
+              <div>
+                <label className="block font-medium">Input</label>
+                <input
+                  type="text"
+                  name="input"
+                  value={example.input}
+                  onChange={(e) => handleExampleChange(index, e)}
+                  required
+                  className="w-full px-4 py-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-medium">Expected Output</label>
+                <input
+                  type="text"
+                  name="expectedOutput"
+                  value={example.expectedOutput}
+                  onChange={(e) => handleExampleChange(index, e)}
+                  required
+                  className="w-full px-4 py-2 border rounded"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => removeExample(index)}
+                className="bg-red-500 text-white px-4 py-2 rounded"
+              >
+                Remove Example
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addExample}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
+            Add Example
+          </button>
         </div>
         <div>
           <label className="block font-medium">Test Cases</label>
