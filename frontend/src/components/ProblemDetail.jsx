@@ -4,6 +4,7 @@ import axiosInstance from "../api/axiosInstance.js";
 import { useUser } from "../context/UserContext.jsx"; // Import the useUser hook
 import Split from "react-split";
 import CodeMirror from "@uiw/react-codemirror";
+import { cpp } from "@codemirror/lang-cpp";
 import Loader from "./Loader.jsx";
 import ReactConfetti from "react-confetti";
 import toast from "react-hot-toast";
@@ -29,6 +30,7 @@ const ComponentA = ({ language, code, setCode, setLanguage }) => {
       <div>
         <CodeMirror
           value={code}
+          extensions={[cpp()]}
           height="400px"
           onChange={(value) => {
             setCode(value);
@@ -79,7 +81,7 @@ const ComponentB = ({ input, output, setInput, handleRun, handleSubmit }) => {
 };
 
 function C1({ problem }) {
-  console.log(problem);
+  
   return (
     <div className="md:w-1/2 mb-4 md:mb-0 md:pr-4 py-4 overflow-y-scroll h-[calc(100vh-5rem)]">
       <div className="pt-4 pb-8">
