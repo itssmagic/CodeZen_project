@@ -109,10 +109,10 @@ const Login = () => {
             </button>
           </div>
         </form>
-
+    {/* comment */}
         <p className="mt-10 text-center text-sm text-gray-500">
           Not a member?{' '}
-          <Link href="/register" className="font-semibold leading-6 text-[#164c60] hover:text-[#164c60]/70">
+          <Link to="/register" className="font-semibold leading-6 text-[#164c60] hover:text-[#164c60]/70">
             Create an account
           </Link>
         </p>
