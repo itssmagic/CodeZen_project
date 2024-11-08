@@ -189,16 +189,33 @@ function ProblemDetail() {
   const handleRun = () => {
     // Run the code using the online compiler API
     axiosInstance
-      .post("/compile", { code, input, language })
-      .then((response) => setOutput(response.data.output))
-      .catch((error) => console.error("Error running code:", error));
+    .post("/compile", { code, input, language })
+    .then((response) => {
+      // Set output from the response if there are no errors
+      setOutput(response.data.output);
+    })
+    .catch((error) => {
+      // Log the error for debugging
+      console.error("Error running code:", error);
+
+      // Check if the error message indicates a timeout
+      if (error.response && error.response.data && error.response.data.error) {
+        if (error.response.data.error.includes("Execution timed out")) {
+          setOutput("Execution timed out");
+        } else {
+          setOutput(error.response.data.error); // Handle other error messages
+        }
+      } else {
+        setOutput("Error running code."); // Generic error handling
+      }
+    });
   };
 
   const handleSubmit = () => {
     axiosInstance
       .post("/submit", { problemId: id, code, language })
       .then((response) => {
-        setOutput(response.data.output);
+        setOutput("");
         setStatus(response.data.status);
         toast.success("Accepted.");
       })
