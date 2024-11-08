@@ -215,7 +215,6 @@ function ProblemDetail() {
     axiosInstance
       .post("/submit", { problemId: id, code, language })
       .then((response) => {
-        setOutput("");
         setStatus(response.data.status);
         toast.success("Accepted.");
       })
