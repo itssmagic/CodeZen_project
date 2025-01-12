@@ -1,0 +1,30 @@
+# Node modules (already included by most .gitignore templates)
+node_modules
+
+# Temp files and directories
+temp/
+temp/**
+
+# Environment files
+
+
+# Logs and debug files
+*.log
+logs/
+
+# Local configurations
+*.local
+*.json.local
+
+# Git-related files
+.git
+.gitignore
+
+# Docker-related files to exclude
+Dockerfile
+.dockerignore
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+

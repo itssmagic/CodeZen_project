@@ -10,6 +10,8 @@ const cookieParser=require('cookie-parser')
 const cors = require("cors");
 const { rateLimit } = require("express-rate-limit")
 
+require('dotenv').config();
+
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
 	limit: 10000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
