@@ -1,2 +1,0 @@
-
-print("Try programiz.pro")
